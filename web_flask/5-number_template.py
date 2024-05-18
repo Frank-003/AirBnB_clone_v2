@@ -1,33 +1,48 @@
 #!/usr/bin/python3
-""" 5. Add fifth view func that displays HTML page if n is int """
-from flask import Flask, render_template
+"""Flask framework
+"""
+from flask import Flask, url_for, render_template
+
 app = Flask(__name__)
 
-@app.route('/', strict_slashes=False)
-def hello_hbnb():
+
+@app.route("/", strict_slashes=False)
+def hello_world():
+    """return hello hbhb
+    """
     return "Hello HBNB!"
 
-@app.route('/hbnb', strict_slashes=False)
-def hbnb():
+
+@app.route("/hbnb", strict_slashes=False)
+def HBNB():
+    """return HBNB"""
     return "HBNB"
 
-@app.route('/c/<text>', strict_slashes=False)
-def c_text(text):
-    return "C " + text.replace('_', ' ')
 
-@app.route('/python/', strict_slashes=False)
+@app.route('/c/<text>', strict_slashes=False)
+def text(text):
+    """return text given"""
+    return "C {}".format(text.replace("_", " "))
+
+
+@app.route('/python/', defaults={'text': 'is_cool'})
 @app.route('/python/<text>', strict_slashes=False)
-def python_text(text="is cool"):
-    return "Python " + text.replace('_', ' ')
+def display(text):
+    """display “Python ”, followed by the value of the text"""
+    return "Python {}".format(text.replace("_", " "))
+
 
 @app.route('/number/<int:n>', strict_slashes=False)
-def number(n):
-    return f"{n} is a number"
+def num_display(n):
+    """display “n is a number” only"""
+    return "{} is a number".format(n)
+
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
-def number_template(n):
-    return render_template('number.html', n=n)
+def num_html(n):
+    """display HTML is "n" is a number only"""
+    return render_template('5-number.html', name=n)
+
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-
+    app.run()
